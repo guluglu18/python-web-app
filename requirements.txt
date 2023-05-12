@@ -1,2 +1,4 @@
 Flask
 sqla-wrapper
+beautifulsoup4
+requests
