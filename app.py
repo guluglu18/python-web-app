@@ -1,7 +1,27 @@
 import requests
 from bs4 import BeautifulSoup
+from sqlalchemy import create_engine, text
+from sqlalchemy.orm import sessionmaker
+import mysql.connector
+from sqlalchemy.exc import OperationalError
+import re
+
+#konekcija sa bazom podataka
+db_url = 'mysql+mysqlconnector://root:root@localhost/nekretnine'
+engine = create_engine(db_url)
+
+try:
+    engine = create_engine(db_url)
+    connection = engine.connect()
+    print("Uspješno ste se povezali sa bazom podataka.")
+    connection.close()
+except OperationalError as e:
+    print("Došlo je do greške prilikom povezivanja sa bazom podataka:", str(e))
 
 
+
+
+#Prikupljanje podataka sa web sajta
 html_text = requests.get('https://www.nekretnine.rs/stambeni-objekti/lista/po-stranici/10/')
 content = html_text.content
 
@@ -34,13 +54,18 @@ for data in li:
         print(tip_nekretnine)
     else:
         print('Tip nije pronadjen')
+    print("------------------------------------------------------------------")
+    kv = data.find('p', class_ = 'offer-price offer-price--invert').text
+    kvadratura = re.findall(r'\d+', kv)[0]
+    print(kvadratura)
+    print("------------------------------------------------------------------")
 
     
 
     #print(tip)
 
     
-    print("---------------------------------------------------------------------------------------------------------------------------------------------------------------------")
+    
 
 
 
