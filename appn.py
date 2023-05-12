@@ -162,9 +162,20 @@ def crawl_nekretnine():
                 print('Greška prilikom pristupa web stranici')
 
             print(newUrl)
-            print(link)
+            #print(link)
             print("------------------------------------------------------")
     else:
         print('Greška prilikom pristupa web stranici')
 
-crawl_nekretnine()
+
+
+#FLASK
+@app.route('/')
+def index():
+    return 'Dobrodošli na početnu stranicu'
+
+
+if __name__ == '__main__':
+    # Prikupljanje podataka sa web stranice prije pokretanja aplikacije
+    crawl_nekretnine()
+    app.run()
